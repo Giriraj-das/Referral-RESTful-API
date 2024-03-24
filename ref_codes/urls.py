@@ -5,4 +5,5 @@ from ref_codes import views
 urlpatterns = [
     path('create/', views.RefCodeCreateView.as_view()),
     path('<int:pk>/delete/', views.RefCodeDeleteView.as_view()),
+    path('get-by-email/', views.GetRefCodeByEmail.as_view()),
 ]
