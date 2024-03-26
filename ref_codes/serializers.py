@@ -1,11 +1,11 @@
 import secrets
-
 from rest_framework import serializers
-
 from ref_codes.models import RefCode
 
 
 class RefCodeCreateSerializer(serializers.ModelSerializer):
+    valid_to = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
+
     class Meta:
         model = RefCode
         fields = '__all__'
@@ -19,7 +19,6 @@ class RefCodeCreateSerializer(serializers.ModelSerializer):
             valid_to=validated_data.get('valid_to'),
             user_id=auth_user_id
         )
-
         return ref_code
 
 
@@ -33,3 +32,13 @@ class GetRefCodeByEmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = RefCode
         fields = ('code',)
+
+
+class SwaggerRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RefCode
+        fields = ('valid_to',)
+
+
+class DummyDetailSerializer(serializers.Serializer):
+    detail = serializers.CharField()

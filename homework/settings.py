@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'users',
     'ref_codes',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -79,6 +80,10 @@ WSGI_APPLICATION = 'homework.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'docker': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
@@ -88,6 +93,8 @@ DATABASES = {
     }
 }
 
+if 'DOCKER_ENV' in os.environ:
+    DATABASES['default'] = DATABASES['docker']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -135,5 +142,13 @@ AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Stakewolle',
+    'DESCRIPTION': 'Простой RESTful API сервис для реферальной системы.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }

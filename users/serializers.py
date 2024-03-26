@@ -22,6 +22,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         code = self.context['view'].kwargs.get('code')
+        if not code:
+            return attrs
 
         ref_code_obj = RefCode.objects.filter(code=code, is_active=True).first()
         if not ref_code_obj:
