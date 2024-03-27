@@ -1,6 +1,7 @@
 import secrets
 from rest_framework import serializers
 from ref_codes.models import RefCode
+from users.models import User
 
 
 class RefCodeCreateSerializer(serializers.ModelSerializer):
@@ -38,6 +39,12 @@ class SwaggerRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = RefCode
         fields = ('valid_to',)
+
+
+class SwaggerRequestEmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email',)
 
 
 class DummyDetailSerializer(serializers.Serializer):

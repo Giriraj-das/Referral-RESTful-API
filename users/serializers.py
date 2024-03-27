@@ -46,3 +46,13 @@ class UserDestroySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id',)
+
+
+class SwaggerCreateRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'password', 'first_name', 'last_name', 'email')
+
+
+class DummyDetailSerializer(serializers.Serializer):
+    detail = serializers.CharField()
