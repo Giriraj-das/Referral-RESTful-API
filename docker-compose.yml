@@ -1,4 +1,4 @@
-version: '1.0'
+version: '3.9'
 
 services:
   db:
@@ -9,6 +9,7 @@ services:
       POSTGRES_PASSWORD: postgres
 
   web:
+    image: oleksandr108/stakewolletest:version-1
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
