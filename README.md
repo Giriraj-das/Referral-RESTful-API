@@ -6,9 +6,6 @@
 - Создать контейнер с PostgreSQL в Docker: `docker run --name stakewolle-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:16.2-alpine`
 - Применяем миграции `./manage.py migrate`
 
-
-- https://hub.docker.com/repository/docker/oleksandr108/stakewolletest/general
-
 ### URLs:
 - http://127.0.0.1:8000/api/docs/ Swagger документация
 
