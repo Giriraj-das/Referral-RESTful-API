@@ -1,14 +1,7 @@
 version: '3.9'
 
 services:
-  db:
-    image: postgres
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-
-  web:
+  api:
     image: oleksandr108/stakewolletest:version-1
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -17,4 +10,30 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+  migrations:
+    image: oleksandr108/stakewolletest:version-1
+    build:
+      context: .
+    depends_on:
+      db:
+        condition: service_healthy
+    command: python manage.py migrate
+  db:
+    image: postgres:16.2-alpine
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+volumes:
+  db_data:
