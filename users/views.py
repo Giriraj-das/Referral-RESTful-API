@@ -60,6 +60,15 @@ class UserCreateView(CreateAPIView):
             status.HTTP_404_NOT_FOUND: DummyDetailSerializer,
             status.HTTP_500_INTERNAL_SERVER_ERROR: DummyDetailSerializer,
         },
+        parameters=[
+            OpenApiParameter(
+                name='code',
+                location=OpenApiParameter.QUERY,
+                description='For referral registration',
+                required=False,
+                type=str
+            ),
+        ]
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
