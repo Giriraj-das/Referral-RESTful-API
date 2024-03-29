@@ -11,3 +11,5 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     role = models.PositiveSmallIntegerField(choices=Roles.choices, default=Roles.USER)
     referer_user = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
+
+    REQUIRED_FIELDS = ['email', 'role']

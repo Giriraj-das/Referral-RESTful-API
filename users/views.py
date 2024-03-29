@@ -7,8 +7,8 @@ from rest_framework.response import Response
 
 from users.models import User
 from users.permissions import UserDeletePermission
-from users.serializers import UserListSerializer, UserCreateSerializer, UserDestroySerializer, \
-    SwaggerCreateRequestSerializer, DummyDetailSerializer
+from users.serializers import UserListSerializer, UserCreateSerializer, UserCreateReferralSerializer, \
+    UserDestroySerializer, SwaggerCreateRequestSerializer, DummyDetailSerializer
 
 
 class UserListView(ListAPIView):
@@ -50,9 +50,7 @@ class UserCreateView(CreateAPIView):
     serializer_class = UserCreateSerializer
 
     @extend_schema(
-        summary='Create user. Create user with referral code.',
-        description='Not enter the "code" - usually a user is created. \
-            Enter the "code" - the user created using referral system.',
+        summary='Create user.',
         request=SwaggerCreateRequestSerializer,
         responses={
             status.HTTP_201_CREATED: UserCreateSerializer,
@@ -60,15 +58,24 @@ class UserCreateView(CreateAPIView):
             status.HTTP_404_NOT_FOUND: DummyDetailSerializer,
             status.HTTP_500_INTERNAL_SERVER_ERROR: DummyDetailSerializer,
         },
-        parameters=[
-            OpenApiParameter(
-                name='code',
-                location=OpenApiParameter.QUERY,
-                description='For referral registration',
-                required=False,
-                type=str
-            ),
-        ]
+    )
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
+
+class ReferralCreateView(CreateAPIView):
+    model = User.objects.all()
+    serializer_class = UserCreateReferralSerializer
+
+    @extend_schema(
+        summary='Create user with referral code.',
+        request=SwaggerCreateRequestSerializer,
+        responses={
+            status.HTTP_201_CREATED: UserCreateReferralSerializer,
+            status.HTTP_400_BAD_REQUEST: DummyDetailSerializer,
+            status.HTTP_404_NOT_FOUND: DummyDetailSerializer,
+            status.HTTP_500_INTERNAL_SERVER_ERROR: DummyDetailSerializer,
+        },
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)

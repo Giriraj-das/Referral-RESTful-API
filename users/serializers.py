@@ -20,10 +20,16 @@ class UserCreateSerializer(serializers.ModelSerializer):
         model = User
         exclude = ('date_joined', 'last_login')
 
+
+class UserCreateReferralSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        exclude = ('date_joined', 'last_login')
+
     def validate(self, attrs):
-        code = self.context['view'].kwargs.get('code')
-        if not code:
-            return attrs
+        code = self.context['request'].parser_context['kwargs']['code']
 
         ref_code_obj = RefCode.objects.filter(code=code, is_active=True).first()
         if not ref_code_obj:
