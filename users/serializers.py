@@ -20,6 +20,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
         model = User
         exclude = ('date_joined', 'last_login')
 
+    def create(self, validated_data):
+        user = super().create(validated_data)
+        print(validated_data.get('password'))
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
 
 class UserCreateReferralSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -43,6 +50,7 @@ class UserCreateReferralSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = super().create(validated_data)
+        print(validated_data.get('password'))
         user.set_password(validated_data['password'])
         user.save()
         return user
