@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   api:
-    image: oleksandr108/stakewolletest:version-1
+    image: oleksandr108/stakewolletest:arm-v1.0
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -15,7 +15,7 @@ services:
       migrations:
         condition: service_completed_successfully
   migrations:
-    image: oleksandr108/stakewolletest:version-1
+    image: oleksandr108/stakewolletest:arm-v1.0
     build:
       context: .
     depends_on:

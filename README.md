@@ -7,7 +7,7 @@
   - Установите зависимости: `pip install -r requirements.txt`
 - Создать контейнер с PostgreSQL в Docker: `docker run --name stakewolle-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:16.2-alpine`
 - Применяем миграции `./manage.py migrate`
-#### Запуск API в Docker ARM архитектура:
+#### Запуск API в Docker (ARM архитектура):
 - Скачать yml-файл: https://github.com/Giriraj-das/Referral-RESTful-API/blob/main/docker-compose.yml
 - В терминале из директории, где лежит yml-файл запустить: `docker-compose up -d`
 - Документация по адресу: http://127.0.0.1:8000/api/docs/
